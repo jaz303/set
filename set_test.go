@@ -1,6 +1,18 @@
 package set
 
-import "testing"
+import (
+	"encoding/json"
+	"testing"
+)
+
+func contains(s []int, i int) bool {
+	for _, v := range s {
+		if v == i {
+			return true
+		}
+	}
+	return false
+}
 
 func TestOf(t *testing.T) {
 	s := Of(1, 2, 3)
@@ -160,16 +172,7 @@ func TestItems(t *testing.T) {
 	s := Of(1, 2, 3)
 	items := s.Items()
 
-	contains := func(i int) bool {
-		for _, v := range items {
-			if v == i {
-				return true
-			}
-		}
-		return false
-	}
-
-	if len(items) != 3 || !contains(1) || !contains(2) || !contains(3) {
+	if len(items) != 3 || !contains(items, 1) || !contains(items, 2) || !contains(items, 3) {
 		t.Fail()
 	}
 }
@@ -200,6 +203,56 @@ func TestDifference(t *testing.T) {
 	d := Difference(a, b)
 
 	if d.Size() != 2 || !d.ContainsSlice([]int{1, 3}) {
+		t.Fail()
+	}
+}
+
+func TestJSONMarshal(t *testing.T) {
+	s := Of(1, 2, 3, 2, 1)
+	jb, err := json.Marshal(s)
+	if err != nil {
+		t.Fail()
+	}
+
+	var lst []int
+	if err := json.Unmarshal(jb, &lst); err != nil {
+		t.Fail()
+	}
+
+	if len(lst) != 3 || !contains(lst, 1) || !contains(lst, 2) || !contains(lst, 3) {
+		t.Fail()
+	}
+}
+
+func TestJSONUnmarshal(t *testing.T) {
+	js := "[1,4,6,1,6,2]"
+
+	var set Set[int]
+	if err := json.Unmarshal([]byte(js), &set); err != nil {
+		t.Fail()
+	}
+
+	if set.Size() != 4 || !set.ContainsSlice([]int{1, 2, 4, 6}) {
+		t.Fail()
+	}
+}
+
+func TestJSONUnmarshalExisting(t *testing.T) {
+	js := "[1,4,6,1,6,2]"
+
+	set := Of(1, 2, 3)
+	if err := json.Unmarshal([]byte(js), &set); err != nil {
+		t.Fail()
+	}
+
+	if set.Size() != 5 || !set.ContainsSlice([]int{1, 2, 3, 4, 6}) {
+		t.Fail()
+	}
+}
+
+func TestJSONUnmarshalError(t *testing.T) {
+	var set Set[int]
+	if err := json.Unmarshal([]byte("!!!"), &set); err == nil {
 		t.Fail()
 	}
 }

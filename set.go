@@ -1,6 +1,10 @@
 // Package set provides a generic set implementation
 package set
 
+import (
+	"encoding/json"
+)
+
 // Set implements a set - an unordered collection of items wherein each item is
 // unique.
 //
@@ -123,4 +127,22 @@ func Difference[T comparable](a, b Set[T]) Set[T] {
 		}
 	}
 	return out
+}
+
+func (s *Set[T]) UnmarshalJSON(b []byte) error {
+	var lst []T
+	if err := json.Unmarshal(b, &lst); err != nil {
+		return err
+	}
+	if *s == nil {
+		*s = make(Set[T])
+	}
+	for _, v := range lst {
+		(*s)[v] = struct{}{}
+	}
+	return nil
+}
+
+func (s Set[T]) MarshalJSON() ([]byte, error) {
+	return json.Marshal(s.Items())
 }
