@@ -4,7 +4,10 @@ package set
 // Set implements a set - an unordered collection of items wherein each item is
 // unique.
 //
-// The underlying storage mechanism is a map of set items to struct{}.
+// The underlying storage mechanism is a map of set items to struct{}. To create
+// a set, use make():
+//
+//    set := make(Set[int])
 type Set[T comparable] map[T]struct{}
 
 // Of returns a set comprising the specified items.
