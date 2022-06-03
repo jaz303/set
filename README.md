@@ -1,5 +1,7 @@
 # set
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/jaz303/set.svg)](https://pkg.go.dev/github.com/jaz303/set)
+
 Installation:
 
 ```
