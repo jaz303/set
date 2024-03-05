@@ -11,8 +11,17 @@ import (
 // The underlying storage mechanism is a map of set items to struct{}. To create
 // a set, use make():
 //
-//    set := make(Set[int])
+//	set := make(Set[int])
 type Set[T comparable] map[T]struct{}
+
+// Make returns an empty set of T
+func Make[T comparable](capacity ...int) Set[T] {
+	if len(capacity) > 0 {
+		return make(Set[T], capacity[0])
+	} else {
+		return make(Set[T])
+	}
+}
 
 // Of returns a set comprising the specified items.
 func Of[T comparable](vs ...T) Set[T] {
