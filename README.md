@@ -25,7 +25,7 @@ s := make(set.Set[int], 3000)
 // (capacity is optional parameter)
 s := set.Make[int]()
 
-// ...and can also be used as a function parameters if necessary:
+// ...and can also be used as a function parameter if necessary:
 config := Config{
     SetFactory: set.Make[int],
 }
