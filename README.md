@@ -34,7 +34,8 @@ config := Config{
 ### Create a set from known values
 
 ```go
-s := set.Of("foo", "bar", "baz")
+s1 := set.Of("foo", "bar", "baz")
+s2 := set.OfSlice([]string{"foo", "bar", "baz"})
 ```
 
 ### Query the set

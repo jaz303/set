@@ -25,6 +25,11 @@ func Make[T comparable](capacity ...int) Set[T] {
 
 // Of returns a set comprising the specified items.
 func Of[T comparable](vs ...T) Set[T] {
+	return OfSlice(vs)
+}
+
+// OfSlice returns a set comprising all items in the specified slice.
+func OfSlice[T comparable](vs []T) Set[T] {
 	out := make(Set[T], len(vs))
 	for _, v := range vs {
 		out[v] = struct{}{}
