@@ -15,13 +15,27 @@ go get -u github.com/jaz303/set
 ### Create a new empty set
 
 ```go
+// Standard make() function works fine
 s := make(set.Set[int])
+
+// Capacity hint can be specified
+s := make(set.Set[int], 3000)
+
+// The Make helper function saves a couple of keystrokes...
+// (capacity is optional parameter)
+s := set.Make[int]()
+
+// ...and can also be used as a function parameter if necessary:
+config := Config{
+    SetFactory: set.Make[int],
+}
 ```
 
 ### Create a set from known values
 
 ```go
-s := set.Of("foo", "bar", "baz")
+s1 := set.Of("foo", "bar", "baz")
+s2 := set.OfSlice([]string{"foo", "bar", "baz"})
 ```
 
 ### Query the set

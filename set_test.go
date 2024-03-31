@@ -14,9 +14,23 @@ func contains(s []int, i int) bool {
 	return false
 }
 
+func TestMake(t *testing.T) {
+	s := Make[int]()
+	if len(s) != 0 {
+		t.Fail()
+	}
+}
+
 func TestOf(t *testing.T) {
-	s := Of(1, 2, 3)
+	s := Of(1, 2, 3, 2, 1)
 	if s.Size() != 3 || !s.ContainsSlice([]int{1, 2, 3}) {
+		t.Fail()
+	}
+}
+
+func TestOfSlice(t *testing.T) {
+	s := OfSlice([]int{1, 2, 3, 3, 4, 4, 4})
+	if s.Size() != 4 || !s.ContainsSlice([]int{1, 2, 3, 4}) {
 		t.Fail()
 	}
 }
