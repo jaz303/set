@@ -84,3 +84,5 @@ set.Difference(a, b) // returns a new set containing the difference between sets
 ## JSON Support
 
 The `Set` type implements the `json.Marshaler` and `json.Unmarshaler` interfaces; sets are encoded as JSON arrays.
+
+Unmarshalling into a non-empty set produces the union of the existing and unmarshalled data.
