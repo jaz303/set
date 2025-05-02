@@ -3,6 +3,7 @@ package set
 
 import (
 	"encoding/json"
+	"iter"
 )
 
 // Set implements a set - an unordered collection of items wherein each item is
@@ -32,6 +33,15 @@ func Of[T comparable](vs ...T) Set[T] {
 func OfSlice[T comparable](vs []T) Set[T] {
 	out := make(Set[T], len(vs))
 	for _, v := range vs {
+		out[v] = struct{}{}
+	}
+	return out
+}
+
+// OfSeq returns a set comprising all items in the specified sequence.
+func OfSeq[T comparable](s iter.Seq[T]) Set[T] {
+	out := make(Set[T], 0)
+	for v := range s {
 		out[v] = struct{}{}
 	}
 	return out
